@@ -6,6 +6,8 @@ const basePath = __dirname;
 const distPath = path.join(basePath, "dist");
 
 const isProduction = process.env.NODE_ENV === "production";
+const isElectron = process.env.electron !== undefined && process.env.electron === "true";
+console.log(isElectron);
 
 module.exports = {
     entry: ["babel-polyfill", "whatwg-fetch", "./src/index.tsx"],
@@ -55,6 +57,17 @@ module.exports = {
                                         },
                                         forceAllTransforms: isProduction,
                                     },
+                                ],
+                            ],
+                            plugins: [
+                                [
+                                    "conditional-compile",
+                                    {
+                                        "define": {
+                                            "TARGET": isProduction ? "production" : "development",
+                                            "ELECTRON": isElectron ? "electron" : "web",
+                                        }
+                                    }
                                 ],
                             ],
                         },

@@ -9,7 +9,16 @@ import "react-toastify/dist/ReactToastify.css";
 import "./css/font-awesome.css";
 import "./css/livesplit.css";
 
+declare var TARGET: string;
+
 async function run() {
+
+    if (TARGET === "development") {
+        console.log("Development Build");
+    } else if (TARGET === "production") {
+        console.log("Production Build");
+    }
+
     try {
         await load("livesplit_core.wasm");
 
